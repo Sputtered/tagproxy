@@ -1,7 +1,7 @@
 {
-  "name": "hypixel-proxy",
+  "name": "tnt-tag-proxy",
   "version": "1.0.0",
-  "description": "sput tnt tag proxy",
+  "description": "A Minecraft proxy for Hypixel TNT Tag with a client-side explosion timer.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -9,5 +9,11 @@
   "dependencies": {
     "minecraft-protocol": "^1.46.0",
     "prismarine-nbt": "^2.6.0"
+  },
+  "bin": "index.js",
+  "pkg": {
+    "assets": ["config.json"],
+    "targets": ["node18-win-x64"],
+    "outputPath": "."
   }
 }

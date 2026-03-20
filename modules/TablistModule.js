@@ -3,16 +3,16 @@ const { buildTimerText } = require('../utils/colorUtils');
 class TablistModule {
   constructor(client) {
     this.client = client;
-    this.playerList = {}; // uuid to username
-    this.itPlayers = new Set(); // usernames currently IT
+    this.playerList = {};
+    this.itPlayers = new Set();
   }
 
   addPlayer(uuid, name) {
-    this.playerList[uuid] = name;
+    this.playerList[this._norm(uuid)] = name;
   }
 
   removePlayer(uuid) {
-    delete this.playerList[uuid];
+    delete this.playerList[this._norm(uuid)];
   }
 
   addITPlayer(username) {
@@ -23,42 +23,48 @@ class TablistModule {
     this.itPlayers.delete(username);
   }
 
-  getPlayerList() {
-    return this.playerList;
+  onDisplayName(uuid, displayName) {
+    const name = this.playerList[this._norm(uuid)];
+    if (!name) return;
+    try {
+      const text = typeof displayName === 'string'
+        ? JSON.parse(displayName).text ?? ''
+        : displayName?.text ?? '';
+      if (text.startsWith('§c')) this.itPlayers.add(name);
+      else if (this.itPlayers.has(name)) this.itPlayers.delete(name);
+    } catch (e) {}
   }
 
-  getITPlayers() {
-    return this.itPlayers;
-  }
+  getPlayerList() { return this.playerList; }
+  getITPlayers() { return this.itPlayers; }
 
   getNonITPlayers() {
-    return Object.values(this.playerList).filter(name => !this.itPlayers.has(name));
+    return Object.values(this.playerList).filter(n => !this.itPlayers.has(n));
   }
 
   update(t) {
     const timerText = buildTimerText(t);
     for (const [uuid, name] of Object.entries(this.playerList)) {
       try {
-        const isIT = this.itPlayers.has(name);
-        const displayName = isIT ? `§c${name}` : `§f${name}`;
+        const displayName = this.itPlayers.has(name) ? `§c${name}` : `§f${name}`;
         this.client.write('player_info', {
           action: 'update_display_name',
-          data: [{
-            uuid,
-            displayName: JSON.stringify({ text: displayName + timerText }),
-          }],
+          data: [{ uuid, displayName: JSON.stringify({ text: displayName + timerText }) }],
         });
       } catch (e) {}
     }
   }
 
-  resetIT() {
-    this.itPlayers = new Set();
-  }
+  resetIT() { this.itPlayers = new Set(); }
 
   reset() {
     this.playerList = {};
     this.itPlayers = new Set();
+  }
+
+  _norm(uuid) {
+    if (!uuid) return '';
+    return String(uuid).toLowerCase().replace(/-/g, '');
   }
 }
 

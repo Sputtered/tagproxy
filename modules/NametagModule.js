@@ -26,18 +26,12 @@ class NametagModule {
   }
 
   createProxyTeam(players, timerText) {
-    if (players.length === 0) return;
+    if (!players.length) return;
     try {
       this.client.write('scoreboard_team', {
-        team: 'proxy_timer',
-        mode: 0,
-        name: 'proxy_timer',
-        prefix: '',
-        suffix: timerText,
-        friendlyFire: 3,
-        nameTagVisibility: 'always',
-        color: 15,
-        players,
+        team: 'proxy_timer', mode: 0, name: 'proxy_timer',
+        prefix: '', suffix: timerText, friendlyFire: 3,
+        nameTagVisibility: 'always', color: 15, players,
       });
       this.proxyTeamCreated = true;
     } catch (e) {}
@@ -55,24 +49,16 @@ class NametagModule {
     if (!this.proxyTeamCreated) return;
     try {
       this.client.write('scoreboard_team', {
-        team: 'proxy_timer',
-        mode: 2,
-        name: 'proxy_timer',
-        prefix: '',
-        suffix: timerText,
-        friendlyFire: 3,
-        nameTagVisibility: 'always',
-        color: 15,
+        team: 'proxy_timer', mode: 2, name: 'proxy_timer',
+        prefix: '', suffix: timerText, friendlyFire: 3,
+        nameTagVisibility: 'always', color: 15,
       });
     } catch (e) {}
   }
 
   ensureProxyTeam(nonItPlayers, timerText) {
-    if (!this.proxyTeamCreated) {
-      this.createProxyTeam(nonItPlayers, timerText);
-    } else {
-      this.updateProxyTeamSuffix(timerText);
-    }
+    if (!this.proxyTeamCreated) this.createProxyTeam(nonItPlayers, timerText);
+    else this.updateProxyTeamSuffix(timerText);
   }
 
   addToProxyTeam(username) {

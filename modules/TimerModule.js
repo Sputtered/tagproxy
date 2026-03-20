@@ -1,6 +1,6 @@
 const { stripColor } = require('../utils/colorUtils');
 const { getPing } = require('../utils/ping');
-const config = require('../config.json');
+const { loadConfig } = require('../utils/config-loader');
 
 class TimerModule {
   constructor() {
@@ -11,8 +11,7 @@ class TimerModule {
   }
 
   onTimerPacket(suffix) {
-    const raw = stripColor(suffix);
-    const num = parseInt(raw);
+    const num = parseInt(stripColor(suffix));
     if (!isNaN(num) && num >= 0) {
       this.serverTimer = num;
       this.syncTime = Date.now();
@@ -24,12 +23,10 @@ class TimerModule {
 
   getCurrentTimer() {
     if (this.serverTimer === null || this.syncTime === null) return null;
-    const oneWay = getPing() / 2;
-    const elapsed = (Date.now() - this.syncTime - oneWay) / 1000;
-    let t = Math.max(0, this.serverTimer - elapsed - config.timer.timerCorrection);
-    if (this._lastReturned !== null) {
-      t = Math.min(t, this._lastReturned + 0.05);
-    }
+    const cfg = loadConfig();
+    const elapsed = (Date.now() - this.syncTime - getPing() / 2) / 1000;
+    let t = Math.max(0, this.serverTimer - elapsed - cfg.timer.timerCorrection);
+    if (this._lastReturned !== null) t = Math.min(t, this._lastReturned + 0.05);
     this._lastReturned = t;
     return t;
   }

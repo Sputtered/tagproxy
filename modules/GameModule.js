@@ -12,7 +12,7 @@ class GameModule {
     const names = Array.from(this.gamePlayers).join('§7, §f');
     setTimeout(() => {
       this.sendChat('§8§m──────────────────§r');
-      this.sendChat(`§e§lTNT Tag §8— §f${count} players`);
+      this.sendChat(`§e§lTNT Tag  §8|  §f${count} players`);
       this.sendChat(`§f${names}`);
       this.sendChat('§8§m──────────────────§r');
     }, 3000);
@@ -25,10 +25,7 @@ class GameModule {
 
   sendChat(message) {
     try {
-      this.client.write('chat', {
-        message: JSON.stringify({ text: message }),
-        position: 0,
-      });
+      this.client.write('chat', { message: JSON.stringify({ text: message }), position: 0 });
     } catch (e) {}
   }
 }

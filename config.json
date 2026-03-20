@@ -9,10 +9,44 @@
     "port": 25565,
     "version": "1.8.9"
   },
+  "features": {
+    "actionBar": true,
+    "nametags": true,
+    "tablistTimer": true,
+    "tickSounds": true,
+    "barrierToGlass": true,
+    "gameStartMessage": true,
+    "welcomeMessage": true,
+    "chatEvents": true
+  },
   "timer": {
     "pingOffset": 35,
-    "timerCorrection": 0.2,
-    "tickSounds": true,
-    "actionBar": true
+    "timerCorrection": 0.2
+  },
+  "sounds": {
+    "tickSound": "random.click",
+    "tickVolume": 1.0,
+    "tickPitch": 63,
+    "tickFromSecond": 5
+  },
+  "chatEvents": {
+    "slowness": {
+      "reformat": true,
+      "format": "§8[§5Slowness§8] §7You applied Slowness to §d{target}§7.",
+      "sound": {
+        "name": "random.anvil_land",
+        "volume": 1.0,
+        "pitch": 63
+      }
+    },
+    "speed": {
+      "reformat": true,
+      "format": "§8[§aSpeed {level}§8] §7You received Speed.",
+      "sound": {
+        "name": "random.orb",
+        "volume": 1.0,
+        "pitch": 84
+      }
+    }
   }
 }
