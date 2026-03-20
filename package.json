@@ -1,0 +1,13 @@
+{
+  "name": "hypixel-proxy",
+  "version": "1.0.0",
+  "description": "sput tnt tag proxy",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "minecraft-protocol": "^1.46.0",
+    "prismarine-nbt": "^2.6.0"
+  }
+}

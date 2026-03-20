@@ -1,0 +1,18 @@
+{
+  "proxy": {
+    "port": 25565,
+    "motd": "TNT Tag Proxy",
+    "maxPlayers": 1
+  },
+  "hypixel": {
+    "host": "mc.hypixel.net",
+    "port": 25565,
+    "version": "1.8.9"
+  },
+  "timer": {
+    "pingOffset": 35,
+    "timerCorrection": 0.2,
+    "tickSounds": true,
+    "actionBar": true
+  }
+}
